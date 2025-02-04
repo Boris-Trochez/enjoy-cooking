@@ -1,0 +1,7 @@
+.button {
+  @apply w-full p-1 rounded;
+}
+
+.input {
+  @apply border border-gray-200 outline-green-200 p-1 rounded;
+}
