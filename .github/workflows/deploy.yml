@@ -24,17 +24,23 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to S3
-        run: aws s3 sync ./dist s3://enjoy-cooking.boristrochez.com --delete
+      - name: Configure AWS Credentials
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set region $AWS_REGION
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: aws s3 sync ./dist s3://$S3_BUCKET_NAME --delete
+        env:
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME_PRODUCTION }}
-          CLOUDFRONT_PRODUCTION_ID: ${{ secrets.CLOUDFRONT_PRODUCTION_ID }}
 
       - name: Invalidate CloudFront Cache
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_PRODUCTION_ID }} --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_PRODUCTION_ID --paths "/*"
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CLOUDFRONT_PRODUCTION_ID: ${{ secrets.CLOUDFRONT_PRODUCTION_ID }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
