@@ -37,11 +37,14 @@ export const Login = () => {
   }, [isLogin, navigate]);
 
   return (
-    <div className="flex flex-col justify-center items-center gap-4 w-full">
-      <h1 className=" text-2xl">
-        Welcome to <span className="text-orange-500">Cooking</span>
-        <span className="text-green-500">Healthy</span>
-      </h1>
+    <div className="flex flex-col justify-center items-center text-center gap-4 w-full">
+      <div>
+        <h1 className=" text-2xl">
+          Welcome to <span className="text-orange-500">Cooking</span>
+          <span className="text-green-500">Healthy</span>
+        </h1>
+        <span className="text-sm">(with Gemini AI)</span>
+      </div>
       <form
         className="flex flex-col gap-6 text-center w-80 border border-gray-200 p-4 rounded"
         onSubmit={handleSubmit}
