@@ -6,8 +6,8 @@ export const Footer: React.FC = () => {
       <span>Copyright © 2025 Boris Trochez. All rights reserved</span>
       <span>
         Enjoy cooking is powered by React + Vite, Gemini AI, Redux, Tailwind
-        css, AWS services: S3, Route 53, ACM, Cloudfront, Lambda and Api
-        Gateway.
+        css, AWS services: S3, Route 53, ACM, Cloudfront, Lambda, DynamoDB and
+        Api Gateway.
       </span>
       <p className=" mt-4">
         <span>

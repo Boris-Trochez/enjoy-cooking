@@ -7,6 +7,10 @@ import { ROUTES } from "./Routes";
 import { GenericComponentProps } from "../types";
 
 export const PublicRoutes: React.FC<GenericComponentProps> = ({ children }) => {
-  const { isLogin } = useSelector((state: RootState) => state.auth);
-  return !isLogin ? children : <Navigate to={`/${ROUTES.HOME_PAGE}`} />;
+  const { status } = useSelector((state: RootState) => state.auth);
+  return status !== "authenticated" ? (
+    children
+  ) : (
+    <Navigate to={`/${ROUTES.HOME_PAGE}`} />
+  );
 };

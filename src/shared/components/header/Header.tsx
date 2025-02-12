@@ -5,11 +5,11 @@ import { logout } from "../../../store/slices/auth/authSlice";
 import React from "react";
 
 export const Header: React.FC = () => {
-  const { isLogin, username } = useSelector((state: RootState) => state.auth);
+  const { status, username } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logout({ errorMessage: null }));
   };
 
   return (
@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
       <header className="flex h-14 items-center bg-green-500 text-white">
         <nav className="flex justify-evenly w-full">
           <ul className="flex gap-3">
-            {isLogin && (
+            {status === "authenticated" && (
               <li
                 onClick={handleLogout}
                 className="hover:cursor-pointer hover:text-orange-200"
@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
               </li>
             )}
           </ul>
-          {isLogin && <span>{username}</span>}
+          {status === "authenticated" && <span>{username}</span>}
         </nav>
       </header>
     </>
