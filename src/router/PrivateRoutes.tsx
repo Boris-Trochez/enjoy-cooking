@@ -9,7 +9,11 @@ import { GenericComponentProps } from "../types";
 export const PrivateRoutes: React.FC<GenericComponentProps> = ({
   children,
 }) => {
-  const { isLogin } = useSelector((state: RootState) => state.auth);
+  const { status } = useSelector((state: RootState) => state.auth);
 
-  return isLogin ? children : <Navigate to={`/${ROUTES.LOGIN}`} />;
+  return status === "authenticated" ? (
+    children
+  ) : (
+    <Navigate to={`/${ROUTES.LOGIN}`} />
+  );
 };

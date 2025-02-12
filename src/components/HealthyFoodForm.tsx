@@ -1,20 +1,23 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { addRecipeConditions } from "../store/slices/recipeConditions";
 import { AppDispatch, RootState, setGeminiResponse } from "../store";
 import { useCustomForm } from "../hooks";
 import { fetchGeminiResponse } from "../api";
 import { ButtonType, RecipeConditions } from "../types";
-import { useNavigate } from "react-router-dom";
 import { Loader } from "./Loader";
 import { ROUTES } from "../router";
 import { Button } from "./button/Button";
+import { updateTokenAppState } from "../store/slices/auth";
 
 export const HealthyFoodForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { username } = useSelector((state: RootState) => state.auth);
+  const { username, tokenApp, attempts } = useSelector(
+    (state: RootState) => state.auth,
+  );
   const {
     age,
     weight,
@@ -93,13 +96,22 @@ export const HealthyFoodForm: React.FC = () => {
             isResponseAvailable: true,
           }),
         );
-        console.log("Res ", response);
+
+        updateTokenAppState({ attempts, id: tokenApp, isTokenValid: true });
         setSubmitted(false);
         setLoading(false);
         navigate(`/${ROUTES.RECIPE_STEPS_PAGE}`, { replace: true });
       });
     }
-  }, [useSubmitted, navigate, formSate, dispatch, username]);
+  }, [
+    useSubmitted,
+    navigate,
+    formSate,
+    dispatch,
+    username,
+    attempts,
+    tokenApp,
+  ]);
 
   return (
     <>
