@@ -3,4 +3,5 @@ export interface TokenApp {
   isTokenValid: boolean;
   attempts: number;
   message?: string;
+  maxAttempts: number;
 }

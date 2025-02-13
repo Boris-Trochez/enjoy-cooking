@@ -36,6 +36,7 @@ export const Login = () => {
         status: "not-authenticated",
         attempts: 0,
         errorMessage: null,
+        maxAttempts: 0,
       }),
     );
 

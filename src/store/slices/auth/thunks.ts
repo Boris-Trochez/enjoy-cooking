@@ -19,7 +19,13 @@ export const checkingAuthentication = (authState: Auth) => {
           }),
         );
       } else {
-        dispatch(login({ ...authState, attempts: response.attempts }));
+        dispatch(
+          login({
+            ...authState,
+            attempts: response.attempts,
+            maxAttempts: response.maxAttempts,
+          }),
+        );
       }
     } catch (error: unknown) {
       dispatch(

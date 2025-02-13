@@ -5,7 +5,9 @@ import { logout } from "../../../store/slices/auth/authSlice";
 import React from "react";
 
 export const Header: React.FC = () => {
-  const { status, username } = useSelector((state: RootState) => state.auth);
+  const { status, username, attempts, maxAttempts } = useSelector(
+    (state: RootState) => state.auth,
+  );
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -16,17 +18,28 @@ export const Header: React.FC = () => {
     <>
       <header className="flex h-14 items-center bg-green-500 text-white">
         <nav className="flex justify-evenly w-full">
-          <ul className="flex gap-3">
+          <ul className="flex justify-evenly w-full">
             {status === "authenticated" && (
-              <li
-                onClick={handleLogout}
-                className="hover:cursor-pointer hover:text-orange-200"
-              >
-                Logout
-              </li>
+              <>
+                <li>
+                  <span>{username}</span>
+                </li>
+                <li>
+                  <span>
+                    Token usage: {attempts}/{maxAttempts}
+                  </span>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="border border-green-300 w-20 rounded hover:cursor-pointer  hover:text-orange-200"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
             )}
           </ul>
-          {status === "authenticated" && <span>{username}</span>}
         </nav>
       </header>
     </>
