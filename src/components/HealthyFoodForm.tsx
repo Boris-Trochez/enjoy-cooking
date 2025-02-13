@@ -10,13 +10,13 @@ import { ButtonType, RecipeConditions } from "../types";
 import { Loader } from "./Loader";
 import { ROUTES } from "../router";
 import { Button } from "./button/Button";
-import { updateTokenAppState } from "../store/slices/auth";
+import { setMaxAttempt, updateTokenAppState } from "../store/slices/auth";
 
 export const HealthyFoodForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { username, tokenApp, attempts } = useSelector(
-    (state: RootState) => state.auth,
+  const { username, tokenApp, attempts, maxAttempts } = useSelector(
+    (state: RootState) => state.auth
   );
   const {
     age,
@@ -58,12 +58,13 @@ export const HealthyFoodForm: React.FC = () => {
       foodTime,
     };
     dispatch(addRecipeConditions(recipeState));
+    dispatch(setMaxAttempt({ newAttempt: attempts }));
     setSubmitted(true);
     setIsFormValid(true);
   };
 
   const onHandleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     onInputChange(event);
   };
@@ -94,10 +95,15 @@ export const HealthyFoodForm: React.FC = () => {
           setGeminiResponse({
             response,
             isResponseAvailable: true,
-          }),
+          })
         );
 
-        updateTokenAppState({ attempts, id: tokenApp, isTokenValid: true });
+        updateTokenAppState({
+          attempts,
+          maxAttempts,
+          id: tokenApp,
+          isTokenValid: true,
+        });
         setSubmitted(false);
         setLoading(false);
         navigate(`/${ROUTES.RECIPE_STEPS_PAGE}`, { replace: true });
@@ -111,6 +117,7 @@ export const HealthyFoodForm: React.FC = () => {
     username,
     attempts,
     tokenApp,
+    maxAttempts,
   ]);
 
   return (
