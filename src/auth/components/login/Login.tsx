@@ -2,7 +2,16 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Loader } from "../../../components";
+import CopyButton from "@/components/copy-button/CopyButton";
+
+import {
+  AboutAppInfo,
+  Button,
+  DialogShadCN,
+  Loader,
+  MessageTrialToken,
+  TooltipShadCN,
+} from "../../../components";
 import { ButtonType } from "../../../types";
 import { useReducerAuthForm } from "../../../hooks";
 import { AppDispatch, RootState } from "../../../store";
@@ -20,15 +29,21 @@ export const Login = () => {
   const [submitExecuted, setSubmitExecuted] = useState(false);
   const [hasNavigated, setHasNavigated] = useState(false);
   const navigate = useNavigate();
+  const isAuthenticating = useMemo(() => status === "checking", [status]);
+  const [showInvalidFormMessage, setShowInvalidFormMessage] = useState(false);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     dispatchReducer({ type: name, payload: value });
   };
 
-  const isAuthenticating = useMemo(() => status === "checking", [status]);
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+
+    if (!formState.tokenApp || !formState.username) {
+      setShowInvalidFormMessage(true);
+      return;
+    }
 
     dispatch(
       checkingAuthentication({
@@ -36,9 +51,10 @@ export const Login = () => {
         status: "not-authenticated",
         attempts: 0,
         errorMessage: null,
+        maxAttempts: 0,
       }),
     );
-
+    setShowInvalidFormMessage(false);
     setSubmitExecuted(true);
   };
 
@@ -46,18 +62,32 @@ export const Login = () => {
     if (status === "authenticated" && !hasNavigated) {
       setHasNavigated(true);
       navigate(`/${ROUTES.HOME_PAGE}`);
+    } else if (submitExecuted) {
+      dispatchReducer({ type: "reset", payload: "" });
     }
-  }, [status, navigate, hasNavigated]);
+  }, [status, navigate, hasNavigated, dispatchReducer, submitExecuted]);
 
   return (
     <div className="flex flex-col justify-center items-center text-center gap-4 w-full">
       {status === "not-authenticated" && (
         <>
           <div>
-            <h1 className=" text-2xl">
-              Welcome to <span className="text-orange-500">Cooking</span>
-              <span className="text-green-500">Healthy</span>
-            </h1>
+            <div className="relative">
+              <h1 className=" text-2xl flex gap-1">
+                Welcome to
+                <span>
+                  <span className="text-orange-500">Cooking</span>
+                  <span className="text-green-500">Healthy</span>
+                </span>
+              </h1>
+              <DialogShadCN
+                title={""}
+                body={<AboutAppInfo />}
+                dialogTriggerButtonText=""
+                dialogTriggerButtonIcon={<TooltipShadCN />}
+                dialogTriggerButtonIconStyle="w-1 h-1 bg-transparent absolute -top-4 -right-5"
+              />
+            </div>
             <span className="text-sm">(with Gemini AI)</span>
           </div>
           <form
@@ -92,9 +122,21 @@ export const Login = () => {
               text="Login"
             />
             {status === "not-authenticated" && submitExecuted && (
-              <span className="text-red-500">{errorMessage}</span>
+              <span className="text-red-500  text-sm">{errorMessage}</span>
+            )}
+            {showInvalidFormMessage && (
+              <span className="text-red-500 text-sm">
+                Invalid Form! Please check that no fields are empty
+              </span>
             )}
           </form>
+
+          <DialogShadCN
+            title={<CopyButton text="BD-token-1" />}
+            body={<MessageTrialToken />}
+            dialogTriggerButtonText="Get your trial token!"
+            dialogTriggerButtonIconStyle="h-6 pt-0 pb-0 text-sm"
+          />
         </>
       )}
       {isAuthenticating && <Loader />}

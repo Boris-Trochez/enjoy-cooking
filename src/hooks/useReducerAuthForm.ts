@@ -14,6 +14,8 @@ const reducer = (
       return { ...state, username: action.payload };
     case AuthFormFieldsInputs.TokenApp:
       return { ...state, tokenApp: action.payload };
+    case "reset":
+      return { ...state, username: "", tokenApp: "" };
     default:
       return state;
   }

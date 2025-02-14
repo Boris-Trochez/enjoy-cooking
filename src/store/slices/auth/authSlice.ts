@@ -7,6 +7,7 @@ const initialState: Auth = {
   tokenApp: "",
   errorMessage: null,
   attempts: 0,
+  maxAttempts: 0,
 };
 
 export const authSlice = createSlice({
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
       state.tokenApp = payload.tokenApp;
       state.errorMessage = null;
       state.attempts = payload.attempts;
+      state.maxAttempts = payload.maxAttempts;
     },
     logout: (
       state,
@@ -29,11 +31,16 @@ export const authSlice = createSlice({
       state.tokenApp = "";
       state.errorMessage = payload.errorMessage;
       state.attempts = 0;
+      state.maxAttempts = 0;
     },
     checkingCredentials: (state) => {
       state.status = "checking";
     },
+    setMaxAttempt: (state, { payload }) => {
+      state.attempts = payload.newAttempt;
+    },
   },
 });
 
-export const { login, logout, checkingCredentials } = authSlice.actions;
+export const { login, logout, checkingCredentials, setMaxAttempt } =
+  authSlice.actions;
