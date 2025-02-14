@@ -13,11 +13,13 @@ export const checkingAuthentication = (authState: Auth) => {
       const response = await readFromTokensApp(authState.tokenApp);
 
       if (!response.isTokenValid) {
-        return dispatch(
+        dispatch(
           logout({
             errorMessage: response.message || LogoutMessages.InvalidTokenApp,
           }),
         );
+
+        return;
       } else {
         dispatch(
           login({

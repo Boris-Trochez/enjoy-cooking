@@ -21,6 +21,7 @@ export const Login = () => {
   const [hasNavigated, setHasNavigated] = useState(false);
   const navigate = useNavigate();
   const isAuthenticating = useMemo(() => status === "checking", [status]);
+  const [showInvalidFormMessage, setShowInvalidFormMessage] = useState(false);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -29,6 +30,11 @@ export const Login = () => {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+
+    if (!formState.tokenApp || !formState.username) {
+      setShowInvalidFormMessage(true);
+      return;
+    }
 
     dispatch(
       checkingAuthentication({
@@ -39,7 +45,7 @@ export const Login = () => {
         maxAttempts: 0,
       }),
     );
-
+    setShowInvalidFormMessage(false);
     setSubmitExecuted(true);
   };
 
@@ -47,8 +53,10 @@ export const Login = () => {
     if (status === "authenticated" && !hasNavigated) {
       setHasNavigated(true);
       navigate(`/${ROUTES.HOME_PAGE}`);
+    } else if (submitExecuted) {
+      dispatchReducer({ type: "reset", payload: "" });
     }
-  }, [status, navigate, hasNavigated]);
+  }, [status, navigate, hasNavigated, dispatchReducer, submitExecuted]);
 
   return (
     <div className="flex flex-col justify-center items-center text-center gap-4 w-full">
@@ -93,7 +101,12 @@ export const Login = () => {
               text="Login"
             />
             {status === "not-authenticated" && submitExecuted && (
-              <span className="text-red-500">{errorMessage}</span>
+              <span className="text-red-500  text-sm">{errorMessage}</span>
+            )}
+            {showInvalidFormMessage && (
+              <span className="text-red-500 text-sm">
+                Invalid Form! Please check that no fields are empty
+              </span>
             )}
           </form>
 
