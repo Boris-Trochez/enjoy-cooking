@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import CopyButton from "@/components/copy-button/CopyButton";
 
 import {
+  AboutAppInfo,
   Button,
   DialogShadCN,
   Loader,
@@ -81,9 +82,7 @@ export const Login = () => {
               </h1>
               <DialogShadCN
                 title={""}
-                body={
-                  "Disruptive app to provide delicious and healthy  food recipe using AI suggestions, based on user conditions such as: age, weight, height, ingredients preferences and meal time."
-                }
+                body={<AboutAppInfo />}
                 dialogTriggerButtonText=""
                 dialogTriggerButtonIcon={<TooltipShadCN />}
                 dialogTriggerButtonIconStyle="w-1 h-1 bg-transparent absolute -top-4 -right-5"

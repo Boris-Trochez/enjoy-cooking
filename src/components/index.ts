@@ -5,4 +5,5 @@ export * from "./button/Button";
 export * from "./dialog/DialogShadCN";
 export * from "./copy-button/CopyButton";
 export * from "./Messages/MessageTrialToken";
+export * from "./Messages/AboutAppInfo";
 export * from "./tooltip/TooltipShadCN";

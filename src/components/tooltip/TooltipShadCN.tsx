@@ -12,9 +12,7 @@ export const TooltipShadCN: React.FC = () => {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <button className="text-gray-600 hover:text-blue-600">
-            <HelpCircle className="w-5 h-5" />
-          </button>
+          <HelpCircle className="w-5 h-5 text-gray-600 hover:text-blue-600" />
         </TooltipTrigger>
         <TooltipContent>
           <p className="bg-blue-600 text-white rounded p-1 text-sm">
