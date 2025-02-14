@@ -211,7 +211,7 @@ export const HealthyFoodForm: React.FC = () => {
             )}
             {!useIsFormValid && useShowErrorMessage && (
               <span className="text-red-500">
-                Please check that no fields are empty
+                Invalid Form! Please check that no fields are empty
               </span>
             )}
             <Button
