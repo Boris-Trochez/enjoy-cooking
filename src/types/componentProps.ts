@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface ButtonProps {
   functionParam?: string;
   handleButtonClick: (param1: string) => void;
@@ -14,4 +16,10 @@ export type ButtonActionType = HTMLButtonElement["type"];
 export enum ButtonType {
   Primary = "primary",
   Secondary = "secondary",
+}
+
+export interface DialogShadCNProps {
+  title: string;
+  body: ReactNode;
+  dialogTriggerButtonText: string;
 }

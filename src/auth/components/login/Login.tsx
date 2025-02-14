@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Loader } from "../../../components";
+import { Button, DialogShadCN, Loader } from "../../../components";
 import { ButtonType } from "../../../types";
 import { useReducerAuthForm } from "../../../hooks";
 import { AppDispatch, RootState } from "../../../store";
@@ -20,13 +20,13 @@ export const Login = () => {
   const [submitExecuted, setSubmitExecuted] = useState(false);
   const [hasNavigated, setHasNavigated] = useState(false);
   const navigate = useNavigate();
+  const isAuthenticating = useMemo(() => status === "checking", [status]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     dispatchReducer({ type: name, payload: value });
   };
 
-  const isAuthenticating = useMemo(() => status === "checking", [status]);
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -96,6 +96,26 @@ export const Login = () => {
               <span className="text-red-500">{errorMessage}</span>
             )}
           </form>
+
+          <DialogShadCN
+            title="BD-token-1"
+            body={
+              <p>
+                You're using a trial token for CookingHealthy!
+                <br />
+                <br /> Please note that this token has an usage limit, so use it
+                mindfully to allow other users to explore as well. The limit is
+                in place due to resource costs, including AWS and Gemini AI.
+                <br />
+                Once you log in, you can view your token usage and limit in the
+                app header.
+                <br />
+                <br />
+                Enjoy it!
+              </p>
+            }
+            dialogTriggerButtonText="Get your trial token!"
+          />
         </>
       )}
       {isAuthenticating && <Loader />}
