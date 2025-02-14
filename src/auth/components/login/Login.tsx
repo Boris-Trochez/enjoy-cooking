@@ -2,7 +2,15 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Button, DialogShadCN, Loader } from "../../../components";
+import CopyButton from "@/components/copy-button/CopyButton";
+
+import {
+  Button,
+  DialogShadCN,
+  Loader,
+  MessageTrialToken,
+  TooltipShadCN,
+} from "../../../components";
 import { ButtonType } from "../../../types";
 import { useReducerAuthForm } from "../../../hooks";
 import { AppDispatch, RootState } from "../../../store";
@@ -63,10 +71,24 @@ export const Login = () => {
       {status === "not-authenticated" && (
         <>
           <div>
-            <h1 className=" text-2xl">
-              Welcome to <span className="text-orange-500">Cooking</span>
-              <span className="text-green-500">Healthy</span>
-            </h1>
+            <div className="relative">
+              <h1 className=" text-2xl flex gap-1">
+                Welcome to
+                <span>
+                  <span className="text-orange-500">Cooking</span>
+                  <span className="text-green-500">Healthy</span>
+                </span>
+              </h1>
+              <DialogShadCN
+                title={""}
+                body={
+                  "Disruptive app to provide delicious and healthy  food recipe using AI suggestions, based on user conditions such as: age, weight, height, ingredients preferences and meal time."
+                }
+                dialogTriggerButtonText=""
+                dialogTriggerButtonIcon={<TooltipShadCN />}
+                dialogTriggerButtonIconStyle="w-1 h-1 bg-transparent absolute -top-4 -right-5"
+              />
+            </div>
             <span className="text-sm">(with Gemini AI)</span>
           </div>
           <form
@@ -111,23 +133,10 @@ export const Login = () => {
           </form>
 
           <DialogShadCN
-            title="BD-token-1"
-            body={
-              <p>
-                You're using a trial token for CookingHealthy!
-                <br />
-                <br /> Please note that this token has an usage limit, so use it
-                mindfully to allow other users to explore as well. The limit is
-                in place due to resource costs, including AWS and Gemini AI.
-                <br />
-                Once you log in, you can view your token usage and limit in the
-                app header.
-                <br />
-                <br />
-                Enjoy it!
-              </p>
-            }
+            title={<CopyButton text="BD-token-1" />}
+            body={<MessageTrialToken />}
             dialogTriggerButtonText="Get your trial token!"
+            dialogTriggerButtonIconStyle="h-6 pt-0 pb-0 text-sm"
           />
         </>
       )}

@@ -194,7 +194,7 @@ export const HealthyFoodForm: React.FC = () => {
                 className="w-full input hover:cursor-pointer"
               >
                 <option value="" disabled hidden>
-                  Choose a food time
+                  Choose a meal time
                 </option>
                 <option value="breakfast">Breakfast</option>
                 <option value="lunch">Lunch</option>

@@ -19,7 +19,9 @@ export enum ButtonType {
 }
 
 export interface DialogShadCNProps {
-  title: string;
+  title: ReactNode;
   body: ReactNode;
   dialogTriggerButtonText: string;
+  dialogTriggerButtonIcon?: ReactNode;
+  dialogTriggerButtonIconStyle?: string;
 }
