@@ -18,7 +18,10 @@ export const Card: React.FC<CardProps> = ({ bodyText }) => {
         {bodyText ? (
           <p className="overflow-y-auto leading-tight">{bodyText}</p>
         ) : (
-          <p className="text-red-600">There is not a recipe to show :(</p>
+          <p className="text-red-600">
+            Something went wrong! <br />
+            There is not a recipe to show :(
+          </p>
         )}
       </div>
     </>
