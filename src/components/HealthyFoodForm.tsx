@@ -16,7 +16,7 @@ export const HealthyFoodForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { username, tokenApp, attempts, maxAttempts } = useSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.auth,
   );
   const {
     age,
@@ -64,7 +64,7 @@ export const HealthyFoodForm: React.FC = () => {
   };
 
   const onHandleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     onInputChange(event);
   };
@@ -95,7 +95,7 @@ export const HealthyFoodForm: React.FC = () => {
           setGeminiResponse({
             response,
             isResponseAvailable: true,
-          })
+          }),
         );
 
         updateTokenAppState({
