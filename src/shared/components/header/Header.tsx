@@ -17,8 +17,13 @@ export const Header: React.FC = () => {
   return (
     <>
       <header className="flex h-14 items-center bg-green-500 text-white">
+        <img
+          src="/assets/images/cooking-healthy-logo-img.png"
+          alt="Cooking healthy logo"
+          className="h-14 w-14"
+        />
         <nav className="flex justify-evenly w-full">
-          <ul className="flex justify-evenly w-full">
+          <ul className="flex justify-evenly w-full items-center">
             {status === "authenticated" && (
               <>
                 <li>

@@ -5,7 +5,7 @@ export const AboutAppInfo: React.FC = () => {
     <>
       <p>
         Cooking Healthy is a disruptive app to provide delicious and healthy
-        food recipe using AI suggestions, based on user conditions such as: age,
+        food recipe using AI suggestions based on user conditions such as: age,
         weight, height, ingredients preferences and meal time.
         <br />
         <br />
