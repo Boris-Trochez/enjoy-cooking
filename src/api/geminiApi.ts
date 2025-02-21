@@ -12,7 +12,7 @@ export const fetchGeminiResponse = async ({
       { prompt: promptOptimized },
       {
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
     return response.data;
   } catch (error) {
